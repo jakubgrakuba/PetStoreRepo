@@ -1,0 +1,5 @@
+{
+  "user-name" : "petstore-admin",
+  "password" : "petstore-admin",
+  "role" : [ "petstore-admin" ]
+}

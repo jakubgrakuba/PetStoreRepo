@@ -1,0 +1,5 @@
+{
+  "user-name" : "petstore-writer",
+  "password" : "petstore-writer",
+  "role" : [ "petstore-writer" ]
+}

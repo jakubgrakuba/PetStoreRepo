@@ -1,0 +1,5 @@
+{
+  "role-name" : "petstore-nobody",
+  "description" : "Unauthenticated user",
+  "role" : [ ]
+}

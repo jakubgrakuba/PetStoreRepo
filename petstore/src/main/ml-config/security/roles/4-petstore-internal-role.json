@@ -1,0 +1,5 @@
+{
+  "role-name" : "petstore-internal",
+  "description" : "Internal role used for amping",
+  "role" : [ "petstore-writer" ]
+}
