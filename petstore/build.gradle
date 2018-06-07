@@ -1,3 +1,10 @@
 plugins { 
   id "com.marklogic.ml-gradle" version "3.0.0"
 }
+
+task projectInfo() {
+    doLast {
+        println "project name: "+project.name
+        println "project directory: "+project.projectDir
+    }
+}

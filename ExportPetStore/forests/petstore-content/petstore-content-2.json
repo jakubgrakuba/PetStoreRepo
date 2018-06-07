@@ -1,0 +1,15 @@
+{
+  "forest-name" : "petstore-content-2",
+  "enabled" : true,
+  "host" : "pozmw030786.emea.roche.com",
+  "data-directory" : "",
+  "large-data-directory" : "",
+  "fast-data-directory" : "",
+  "fast-data-max-size" : 0,
+  "updates-allowed" : "all",
+  "availability" : "online",
+  "rebalancer-enable" : true,
+  "failover-enable" : true,
+  "database-replication" : null,
+  "database" : "petstore-content"
+}
