@@ -1,0 +1,26 @@
+<pets>
+    <pet>
+        <name>Meowsalot</name>
+        <species>cat</species>
+        <favFoods>
+            <food>tuna</food>
+            <food>catnip</food>
+            <food>celery</food>
+        </favFoods>
+        <birth>20-01-2017</birth>
+    </pet>
+    <pet>
+        <name>Barksalot</name>
+        <species>dog</species>
+        <birth>19-01-2017</birth>
+    </pet>
+    <pet>
+        <name>Purrsloud</name>
+        <species>cat</species>
+        <favFoods>
+            <food>wet food</food>
+            <food>dry food</food>            
+        </favFoods>
+        <birth>20-02-2017</birth>
+    </pet>
+</pets>
