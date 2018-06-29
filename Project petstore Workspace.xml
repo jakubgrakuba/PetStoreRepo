@@ -27,33 +27,37 @@ declare function test:my-function(){
 };
 let $x := test:my-function()
 return $x
-</query><query name="Query 3" focus="false" listorder="6" taborder="4" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+</query><query name="pet map" focus="false" listorder="6" taborder="4" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 declare function local:get-pets-map($get-pets-result)
 {  
 
     for $uri in $get-pets-result
     return 
         let $pet-map:= map:new((
-        map:entry("name",fn:doc($uri)/pet/name),
-        map:entry("species",fn:doc($uri)/pet/species),
-        map:entry("birth",fn:doc($uri)/pet/birth)
+        map:entry("name",fn:doc($uri)/pet/name/text()),
+        map:entry("species",fn:doc($uri)/pet/species/text()),
+        map:entry("birth",fn:doc($uri)/pet/birth/text())
     ))
     return $pet-map
     
 };
 
 let $results := cts:uris("", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), (), ())
-return local:get-pets-map($results)</query><query name="Query 4" focus="false" listorder="7" taborder="6" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
-fn:doc("Purrsloud.xml")/pet/name</query><query name="Query 5" focus="true" listorder="8" taborder="5" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+return $results (:local:get-pets-map($results):)
+</query><query name="Query 4" focus="false" listorder="7" taborder="" active="false" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+fn:doc("Purrsloud.xml")/pet/name</query><query name="map pet map" focus="false" listorder="8" taborder="5" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 declare function local:get-pets-map($get-pets-result)
 {  
 
   let $map := map:map()
   let $total := for $uri at $counter in $get-pets-result
     let $doc := fn:doc($uri)
-    let $pet-name := $doc/pet/name  
-    let $pet-species := $doc/pet/species 
-    let $pet-birth := $doc/pet/birth 
+    let $pet-name := $doc/pet/name/text()  
+    let $pet-species := $doc/pet/species/text() 
+    let $pet-birth := try {  if ($doc/pet/birth/text() castable as xs:date)
+                            then   $doc/pet/birth/text()
+                           else fn:error(xs:QName("info"), "invalid date format" , "")}       
+                          catch($err) {""}
     
     let $pet-map:= map:new((
         map:entry("name",$pet-name),
@@ -61,8 +65,93 @@ declare function local:get-pets-map($get-pets-result)
         map:entry("birth",$pet-birth)
     ))
     return map:put($map, string($counter), $pet-map)
-   return xdmp:to-json($map)
+    return $map
 };
 
 let $results := cts:uris("", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), (), ())
-return local:get-pets-map($results)</query></workspace></export>
+return local:get-pets-map($results)</query><query name="insert json" focus="false" listorder="9" taborder="6" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+declare function local:get-pets-map($get-pets-result)
+{  
+
+  let $map := map:map()
+  let $total := for $uri at $counter in $get-pets-result
+    let $doc := fn:doc($uri)
+    let $pet-name := $doc/pet/name/text()  
+    let $pet-species := $doc/pet/species/text() 
+    let $pet-birth := $doc/pet/birth/text() 
+    
+    let $pet-map:= map:new((
+        map:entry("name",$pet-name),
+        map:entry("species",$pet-species),
+        map:entry("birth",$pet-birth)
+    ))
+    return map:put($map, string($counter), $pet-map)
+    return $map
+};
+
+let $results := cts:uris("", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), (), ())
+(:return local:get-pets-map($results):)
+ return xdmp:document-insert("pets.json", xdmp:to-json(local:get-pets-map($results)),&lt;options xmlns="xdmp:document-insert"&gt;  
+       &lt;collections&gt;{
+        &lt;collection&gt;pets&lt;/collection&gt;
+        }&lt;/collections&gt;
+    &lt;/options&gt;)
+
+(:local:get-pets-map($results):)</query><query name="delete json" focus="false" listorder="11" taborder="7" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+xdmp:document-delete("pets.json")</query><query name="try catch" focus="false" listorder="12" taborder="9" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+let $pet-birth := 
+(:poprawna 2015-12-25 :)
+(:nieporawna 20-01-2017 xquery funcions parse date :) 
+(:try {  $pet-birth castable as xs:date }:)
+(:ablo xs:date($pet-birth):)
+try {  if ("20-01-2017" castable as xs:date)
+       then   "2015-12-05"
+       else fn:error(xs:QName("info"), "invalid date format" , "")
+     }       
+catch($err) {""}
+return $pet-birth</query><query name="json:object" focus="true" listorder="12" taborder="9" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+declare function local:get-pets-map($get-pets-result)
+{  
+  
+    let total := for $uri at $counter in $get-pets-result
+    let $doc := fn:doc($uri)
+    let $pet-name := $doc/pet/name/text()  
+    let $pet-species := $doc/pet/species/text() 
+    let $pet-birth := $doc/pet/birth/text() 
+    let $map1 := json:object()
+    let $_:= map:put($map1,"zz", "xxx")
+    
+    let $pet-map:= json:object((
+        map:entry("name",$pet-name),
+        map:entry("species",$pet-species),
+        map:entry("birth",$pet-birth)
+    ))
+ return map:put($map, string($counter), $pet-map)
+    return $map
+ 
+};
+
+let $results := cts:uris("", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), (), ())
+(:return local:get-pets-map($results):)
+ (:return xdmp:document-insert("pets.json", xdmp:to-json(local:get-pets-map($results)),&lt;options xmlns="xdmp:document-insert"&gt;  
+       &lt;collections&gt;{
+        &lt;collection&gt;pets&lt;/collection&gt;
+        }&lt;/collections&gt;
+    &lt;/options&gt;):)
+
+return local:get-pets-map($results)</query><query name="Query 5" focus="false" listorder="13" taborder="10" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+    let $obj :=
+&lt;json:object xmlns:json="http://marklogic.com/xdmp/json"&gt;
+ &lt;json:entry&gt;
+   &lt;json:key&gt;2&lt;/json:key&gt;
+   &lt;json:value xsi:type="xs:string"&gt;
+    world&lt;/json:value&gt;
+ &lt;/json:entry&gt;
+ &lt;json:entry&gt;
+   &lt;json:key&gt;1&lt;/json:key&gt;
+   &lt;json:value xsi:type="xs:string"&gt;
+    hello&lt;/json:value&gt;
+ &lt;/json:entry&gt;
+&lt;/json:object&gt;
+
+return json:object($obj)</query></workspace></export>
