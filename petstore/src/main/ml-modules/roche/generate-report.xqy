@@ -3,10 +3,10 @@ module namespace pet-json = "http://pets.com/pets-json";
 import module namespace json="http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
 import module namespace op="http://marklogic.com/optic" at "/MarkLogic/optic.xqy";
 
-declare function pet-json:report-generation()
+declare function pet-json:report-generation($viewURI)
 {
 let $results := pet-json:get-pets-result()
-let $pets-map := pet-json:get-pets-map($results)
+let $pets-map := pet-json:get-pets-map($results[1])
 let $pets-json := xdmp:to-json($pets-map)
 return xdmp:document-insert("pets.json", $pets-json,<options xmlns="xdmp:document-insert">  
        <collections>{
