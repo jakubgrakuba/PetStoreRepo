@@ -6,6 +6,7 @@
     "localname" : "CHANGEME",
     "collation" : "http://marklogic.com/collation/",
     "range-value-positions" : false,
-    "invalid-values" : "reject"
+    "invalid-values" : "reject",
+    "schemas": "petstore-schemas"
   } ]
 }
