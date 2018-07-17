@@ -1,0 +1,36 @@
+<export><workspace name="Optic API Tyg 3"><query name="Query 1" focus="false" listorder="1" taborder="1" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+import module namespace op="http://marklogic.com/optic"
+     at "/MarkLogic/optic.xqy";
+
+let $get-pets-result := op:from-view("pets", "pets")
+   =&gt; op:select(("name", "species", "birth"))
+   =&gt; op:order-by("name")
+   =&gt; op:result()
+   
+let $map := json:object()
+   let $doc := &lt;doc&gt;{$get-pets-result}&lt;/doc&gt;
+   let $_ := for $get-pets-result at $counter in $doc/json:object
+   let $pet-name := $get-pets-result/json:entry[@key eq"pets.pets.name"]/json:value/string()
+   let $pet-species := $get-pets-result/json:entry[@key eq"pets.pets.species"]/json:value/string()
+   let $pet-birth := $get-pets-result/json:entry[@key eq"pets.pets.birth"]/json:value/string()
+   
+    let $pet-map:= map:new((
+        map:entry("name",$pet-name),
+        map:entry("species",$pet-species),
+        map:entry("birth",$pet-birth)))
+ 
+   return map:put($map, string($counter), $pet-map)
+return $map</query><query name="Query 2" focus="false" listorder="2" taborder="2" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+xdmp:type(cts:uri-match("*.xml", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), 1.0, ()))</query><query name="report generation" focus="true" listorder="3" taborder="3" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+import module namespace pet-json = "http://pets.com/pets-json" at "generate-report.xqy";
+pet-json:report-generation()
+
+</query><query name="Query 3" focus="false" listorder="4" taborder="4" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+import module namespace op="http://marklogic.com/optic"
+     at "/MarkLogic/optic.xqy";
+
+let $get-pets-result := op:from-view("pets", "pets")
+   =&gt; op:select(("name", "species", "birth"))
+   =&gt; op:order-by("name")
+   =&gt; op:result()
+return $get-pets-result</query></workspace></export>
