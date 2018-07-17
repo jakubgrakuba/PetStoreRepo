@@ -23,7 +23,7 @@ let $map := json:object()
 return $map</query><query name="Query 2" focus="false" listorder="2" taborder="2" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 xdmp:type(cts:uri-match("*.xml", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), 1.0, ()))</query><query name="report generation" focus="true" listorder="3" taborder="3" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 import module namespace pet-json = "http://pets.com/pets-json" at "generate-report.xqy";
-pet-json:report-generation()
+pet-json:report-generation("petstore.xml")
 
 </query><query name="Query 3" focus="false" listorder="4" taborder="4" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 import module namespace op="http://marklogic.com/optic"
