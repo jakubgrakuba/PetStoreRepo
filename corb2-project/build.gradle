@@ -23,14 +23,7 @@ buildscript {
 }
 
 plugins {
-    id "com.marklogic.ml-gradle" version "3.5.0"
-}
-
-task projectInfo() {
-    doLast {
-        println "project name: "+project.name
-        println "project directory: "+project.projectDir
-    }
+    id "com.marklogic.ml-gradle" version "3.6.0"
 }
 
 repositories {
@@ -77,11 +70,11 @@ ext {
  *
  * Examples of how to invoke corb and set options:
  * 1.) specify options from a properties file using the CoRB2 OPTIONS-FILE option
- *     gradle corb -PcorbOptionsFile=src/main/ml-modules/roche/options.properties
+ *     gradle corb -PcorbOptionsFile=src/main/ml-modules/ext/corb2-project/corb/options.properties
  * 2.) Set corb project properties on the commandline
- *     gradle corb -PcorbUrisModule="src/main/ml-modules/ext/corb2-project/uris.xqy|ADHOC" -PcorbProcessModule="src/main/ml-modules/roche/transform.xqy|ADHOC"
+ *     gradle corb -PcorbUrisModule="src/main/ml-modules/ext/corb2-project/uris.xqy|ADHOC" -PcorbProcessModule="src/main/ml-modules/ext/corb2-project/corb/transform.xqy|ADHOC"
  * 3.) Set CoRB2 options as System properties on the commandline
- *     gradle corb -DURIS-MODULE="src/main/ml-modules/ext/corb2-project/uris.xqy|ADHOC" -DPROCESS-MODULE="src/main/ml-modules/roche/transform.xqy|ADHOC"
+ *     gradle corb -DURIS-MODULE="src/main/ml-modules/ext/corb2-project/uris.xqy|ADHOC" -DPROCESS-MODULE="src/main/ml-modules/ext/corb2-project/corb/transform.xqy|ADHOC"
  */
 task corb(type: com.marklogic.gradle.task.CorbTask) {
     /* Either uncomment and set the xccConnectionUri below and set an appropriate XCC connection string,
@@ -105,8 +98,8 @@ task corb(type: com.marklogic.gradle.task.CorbTask) {
  */
 task corbAdhoc(type: com.marklogic.gradle.task.CorbTask) {
     xccConnectionUri = contentXccUrl
-    urisModule = "c:\\Projects\\PetStoreRepo\\petstore\\src\\main\\ml-modules\\roche\\uris.xqy|ADHOC"
-    processModule = "c:\\Projects\\PetStoreRepo\\petstore\\src\\main\\ml-modules\\roche\\transform.xqy|ADHOC" 
+    urisModule = "src/main/ml-modules/ext/corb2-project/corb/uris.xqy|ADHOC"
+    processModule = "src/main/ml-modules/ext/corb2-project/corb/transform.xqy|ADHOC"
 }
 
 /*
@@ -119,11 +112,7 @@ task corbAdhoc(type: com.marklogic.gradle.task.CorbTask) {
  */
 task corbDeployed(type: com.marklogic.gradle.task.CorbTask, dependsOn: ['mlLoadModules']) {
     xccConnectionUri = contentXccUrl
-    moduleRoot = "/roche/"
+    moduleRoot = "/ext/corb2-project/corb/"
     urisModule = "uris.xqy"
     processModule = "transform.xqy"
-}
-
-task runCorb(type: com.marklogic.gradle.task.CorbTask, dependsOn: ["mlLoadModules"]) {
-  modulePrefix = "test"
 }

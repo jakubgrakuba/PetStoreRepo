@@ -1,6 +1,8 @@
-
 xquery version "1.0-ml";
+import module namespace pet-json = "http://pets.com/pets-json" at "generate-report.xqy";
 
 declare variable $URI external;
 
-xdmp:log("Calling Corb transform on URI: " || $URI)
+pet-json:report-generation("petstore.xml");
+
+(:xdmp:log("Calling Corb transform on URI: " || $URI):)
