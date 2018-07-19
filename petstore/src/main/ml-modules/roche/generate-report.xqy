@@ -5,8 +5,9 @@ import module namespace op="http://marklogic.com/optic" at "/MarkLogic/optic.xqy
 
 declare function pet-json:report-generation($viewURI)
 {
-let $results := pet-json:get-pets-result() 
-let $pets-map := pet-json:get-pets-map($results[4])
+let $petname := substring-before($viewURI, '.')(:"Rottweiler"    :)
+let $results := pet-json:get-pets-result($petname) 
+let $pets-map := pet-json:get-pets-map($results)
 let $pets-json := xdmp:to-json($pets-map)
 return xdmp:document-insert("pets.json", $pets-json,<options xmlns="xdmp:document-insert">  
        <collections>{
@@ -15,14 +16,14 @@ return xdmp:document-insert("pets.json", $pets-json,<options xmlns="xdmp:documen
     </options>)
 };
 
-declare private function pet-json:get-pets-result()
+declare private function pet-json:get-pets-result($petname)
 {
 (:cts:uris("", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), (), ()):)
 (:cts:uri-match("*.xml", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), 1.0, ()):)
 op:from-view("pets", "pets")
-   (:=> op:where(op:eq(op:col("name"), "Rottweiler")):)
+   => op:where(op:eq(op:col("name"), $petname))
    => op:select(("name", "species", "birth"))
-   => op:order-by("name", "species", "birth")
+   => op:order-by("name")
    => op:result()
 };
 
