@@ -1,4 +1,4 @@
-<export><workspace name="Optic API Tyg 3"><query name="Query 1" focus="true" listorder="1" taborder="1" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+<export><workspace name="Optic API Tyg 3"><query name="Query 1" focus="false" listorder="1" taborder="1" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 import module namespace op="http://marklogic.com/optic"
      at "/MarkLogic/optic.xqy";
 
@@ -20,7 +20,8 @@ let $map := json:object()
         map:entry("birth",$pet-birth)))
  
    return map:put($map, string($counter), $pet-map)
-return $map</query><query name="return uris" focus="false" listorder="2" taborder="2" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+return $map
+(:return map:get($map, "1"):)</query><query name="return uris" focus="false" listorder="2" taborder="2" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 (:let $uris := cts:uri-match("Rottweiler.xml", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), 1.0, ()):)
 let $uris := cts:uris("Rottweiler.xml", "limit=1", (), (), ())
 
@@ -57,5 +58,13 @@ let $get-pets-result := op:from-view("pets", "pets")
    =&gt; op:select(("name", "species", "birth"))
    =&gt; op:order-by("name")
    =&gt; op:result()
-   
-   return $get-pets-result</query></workspace></export>
+ 
+return $get-pets-result
+</query><query name="Query 8" focus="false" listorder="9" taborder="" active="false" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+xdmp:type(let $a := op:from-view("pets", "pets")
+   (:=&gt; op:where(op:eq(op:col("name"), "Rottweiler")):)
+   =&gt; op:select(("name", "species", "birth"))
+   =&gt; op:order-by("name", "species", "birth")
+   =&gt; op:result()
+   return $a)</query><query name="Query 9" focus="true" listorder="10" taborder="9" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+substring-before("Rottweiler.xml", '.')(:"Rottweiler"    :)</query></workspace></export>
