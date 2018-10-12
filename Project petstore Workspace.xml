@@ -1,4 +1,4 @@
-<export><workspace name="Project petstore"><query name="clear documents" focus="false" listorder="1" taborder="1" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">if (xdmp:database-name(xdmp:database()) = "petstore-content") 
+<export><workspace name="Project petstore"><query name="clear documents" focus="true" listorder="1" taborder="1" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">if (xdmp:database-name(xdmp:database()) = "petstore-content") 
 
 then
 
@@ -12,7 +12,7 @@ else
 xdmp:document-add-collections("Rottweiler.xml", "pets")</query><query name="reportgeneration" focus="false" listorder="3" taborder="3" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 import module namespace pet-json = "http://pets.com/pets-json" at "generate-report.xqy";
 pet-json:report-generation()
-</query><query name="Query 1" focus="false" listorder="4" taborder="" active="false" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+</query><query name="Query 1" focus="false" listorder="4" taborder="13" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 declare namespace pet-json = "http://pets.com/pets-json";
 
 declare function pet-json:report-generation()
@@ -20,7 +20,7 @@ declare function pet-json:report-generation()
 "hello word"
 };
 let $x := pet-json:report-generation()
-return $x</query><query name="Query 2" focus="false" listorder="5" taborder="" active="false" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+return $x</query><query name="Query 2" focus="false" listorder="5" taborder="12" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 declare namespace test = "my-namespace";
 declare function test:my-function(){
 "hello world"
@@ -44,7 +44,7 @@ declare function local:get-pets-map($get-pets-result)
 
 let $results := cts:uris("", "ascending", cts:and-query(cts:collection-query("pets"), "ordered"), (), ())
 return $results (:local:get-pets-map($results):)
-</query><query name="Query 4" focus="false" listorder="7" taborder="" active="false" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+</query><query name="Query 4" focus="false" listorder="7" taborder="11" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 fn:doc("Purrsloud.xml")/pet/name</query><query name="map pet map" focus="false" listorder="8" taborder="5" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 declare function local:get-pets-map($get-pets-result)
 {  
@@ -109,7 +109,7 @@ try {  if ("20-01-2017" castable as xs:date)
        else fn:error(xs:QName("info"), "invalid date format" , "")
      }       
 catch($err) {""}
-return $pet-birth</query><query name="json:object" focus="true" listorder="12" taborder="9" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+return $pet-birth</query><query name="json:object" focus="false" listorder="12" taborder="9" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
 declare function local:get-pets-map($get-pets-result)
 {  
   
@@ -154,4 +154,16 @@ return local:get-pets-map($results)</query><query name="Query 5" focus="false" l
  &lt;/json:entry&gt;
 &lt;/json:object&gt;
 
-return json:object($obj)</query></workspace></export>
+return json:object($obj)</query><query name="load documents" focus="false" listorder="14" taborder="14" active="true" database="4764615340605620970" server="11761150019421516864" database-name="petstore-content" server-name="petstore" mode="xquery">xquery version "1.0-ml";
+declare variable $pathToSongDocs := "G:\My Drive\MarkLogic\Xquery course";
+
+(:xdmp:document-load($pathToSongDocs||"\order.xml",
+  map:map() =&gt; map:with("uri", "order.xml")):)
+  
+ (: xdmp:document-load($pathToSongDocs||"\catalog.xml",
+  map:map() =&gt; map:with("uri", "catalog.xml")) :)
+  
+  xdmp:document-load($pathToSongDocs||"\prices.xml",
+  map:map() =&gt; map:with("uri", "prices.xml"))
+  
+</query></workspace></export>
